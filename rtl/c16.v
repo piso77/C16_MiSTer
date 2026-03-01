@@ -34,7 +34,7 @@ module C16
 (
 	input         CLK28,
 	input         RESET,
-	input         WAIT,
+	input         WAIT_I,
 
 	output        CE_PIX,
 	output        HSYNC,
