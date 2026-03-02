@@ -128,9 +128,8 @@ mos8501 cpu
 
 // this process divides 28 MHz to ~986KHz (for the SID)
 reg ce_sid;
+reg [5:0] div = 6'b0;
 always @(posedge CLK28)	begin
-	reg [5:0] div = 0;
-	
 	div <= div  + 1'd1;
 	if(div == 28) div <= 0;
 	ce_sid <= !div;
