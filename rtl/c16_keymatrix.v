@@ -46,8 +46,8 @@ assign rowsel=~row;
 wire       pressed  = ps2_key[9];
 wire [8:0] scancode = ps2_key[8:0];
 
+reg flg1,flg2;
 always @(posedge clk) begin
-	reg flg1,flg2;
 
 	flg1 <= ps2_key[10];
 	flg2 <= flg1;
