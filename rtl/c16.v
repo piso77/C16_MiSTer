@@ -65,7 +65,8 @@ module C16
 	input   [4:0] JOY0,
 	input   [4:0] JOY1,
 
-	input  [10:0] ps2_key,
+	input  [6:0]  kb_key_num_i,        // keyboard scancode
+	input         kb_key_pressed_n_i,  // is the key pressed?
 	output        key_play,
 
 	output        IEC_DATAOUT,
@@ -211,10 +212,11 @@ colors_to_rgb colordecode
 );
 
 // keyboard part
-c16_keymatrix keyboard
+mega65_c16_keymatrix keyboard
 (
 	.clk(CLK28),
-	.ps2_key(ps2_key),
+	.scancode(kb_key_num_i),
+	.pressed(!kb_key_pressed_n_i),
 	.row(keyboard_row),
 	.key_play(key_play),
 	.kbus(kbus_kbd)
