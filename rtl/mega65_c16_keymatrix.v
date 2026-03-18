@@ -7,7 +7,7 @@
 // port done by Paolo Pisati <p.pisati@gmail.com> in 2026 and licensed under GPL v3
 // based on c16_keymatrix.v
 //
-// XXX a few C16 keys are not mapped: F2, star, up, down, left, right and play
+// XXX a few C16 keys are not mapped: F2, up, down, left, right and play
 //////////////////////////////////////////////////////////////////////////////////
 module mega65_c16_keymatrix
 (
@@ -81,7 +81,7 @@ always @(posedge clk) begin
 			7'h2C: key_dot<=pressed;
 			7'h2B: key_minus<=pressed;
 			7'h2D: key_colon<=pressed;
-			//9'h05B: key_star<=pressed;
+			7'h31: key_star<=pressed;
 			7'h32: key_semicolon<=pressed;
 			7'h47: key_esc<=pressed;
 			7'h35: key_equal<=pressed;
