@@ -139,7 +139,7 @@ generate
 		iecdrv_mem #(
 		   .DATAWIDTH(8),
 		   .ADDRWIDTH(15),
-		   .INITFILE("../../VIC20_MiSTer/rtl/iec_drive/c1541_dolphin.mif.hex"),
+		   .INITFILE("../../C16_MiSTer/rtl/iec_drive/c1541_dolphin.mif.hex"),
 		   .FALLING_A(1'b1)
 		) rom (
 			.clock_a(clk_sys),
@@ -180,7 +180,7 @@ wire [7:0] qnice_rom1_do;
 iecdrv_mem_rom #(
    .DATAWIDTH(8),
    .ADDRWIDTH(14),
-   .INITFILE("../../VIC20_MiSTer/rtl/iec_drive/c1541_rom.mif.hex"),
+   .INITFILE("../../C16_MiSTer/rtl/iec_drive/c1541_rom.mif.hex"),
    .FALLING_A(1'b1)
 ) romstd (
 	.clock_a(clk_sys),
