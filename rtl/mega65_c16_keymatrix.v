@@ -7,7 +7,7 @@
 // port done by Paolo Pisati <p.pisati@gmail.com> in 2026 and licensed under GPL v3
 // based on c16_keymatrix.v
 //
-// XXX F2 and play keys are not implemented yet
+// XXX play key not implemented yet
 //////////////////////////////////////////////////////////////////////////////////
 module mega65_c16_keymatrix
 (
@@ -73,7 +73,6 @@ always @(posedge clk) begin
 			7'h01: key_return<=pressed;
 			7'h43: key_help<=pressed;
 			7'h04: key_F1<=pressed;
-			//9'h006: key_F2<=pressed;
 			7'h05: key_F3<=pressed;
 			7'h2E: key_AT<=pressed;
 			7'h0F: key_lshift<=pressed; // left shift
@@ -108,6 +107,11 @@ always @(posedge clk) begin
 			//9'h17D: key_play<=pressed;
 		endcase
 
+	if ((key_lshift || key_rshift) && key_F1) begin
+		key_F2 <= 1;
+	end else begin
+		key_F2 <= 0;
+	end
 end
 
 always @(posedge clk) begin
