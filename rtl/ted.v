@@ -1011,6 +1011,7 @@ always @(hcounter)
 	hpos_304=0;
 	hpos_312=0;
 	hpos_320=0;
+	hpos_321=0;
 	hpos_336=0;
 	hpos_343=0;
 	hpos_348=0;
