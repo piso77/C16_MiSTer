@@ -764,17 +764,17 @@ sid_dac #(.BITS(11)) fc_dac
   .vout (fc_6581)
 );
 
-function [9:0] tanh_x_mirror(wire signed [10:0] x);
+function [9:0] tanh_x_mirror(input signed [10:0] x);
     tanh_x_mirror = 10'(x < 0 ? -x : x);
 endfunction
 
-function signed [10:0] tanh_x_clamp(wire signed [12:0] x);
+function signed [10:0] tanh_x_clamp(input signed [12:0] x);
     tanh_x_clamp = (x < -1023) ? -11'sd1023 :
                    (x >  1023) ?  11'sd1023 :
                    11'(x);
 endfunction
 
-function signed [15:0] tanh_y_mirror(wire x_neg, wire signed [15:0] y);
+function signed [15:0] tanh_y_mirror(input x_neg, input signed [15:0] y);
     tanh_y_mirror = x_neg ? -y : y;
 endfunction
 

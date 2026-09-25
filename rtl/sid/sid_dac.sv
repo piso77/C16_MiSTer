@@ -49,7 +49,7 @@ module sid_dac #(
     parameter  _2R_DIV_R  = 2.20,
     parameter  TERM       = 0
 )(
-    input  logic [BITS-1:0] vin,
+    input  wire  [BITS-1:0] vin,
     output logic [BITS-1:0] vout
 );
     localparam SCALEBITS  = 4;
@@ -125,3 +125,6 @@ module sid_dac #(
         end
     end
 endmodule
+
+// Restore the default: Vivado applies `default_nettype to all files compiled after this one
+`default_nettype wire
