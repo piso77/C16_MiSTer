@@ -216,9 +216,8 @@ sid_top sid
 // -----------------------------------------------------------------------
 
 reg [15:0] alo, aro;
+reg [17:0] alm, arm;
 always @(posedge CLK28) begin
-	reg [17:0] alm, arm;
-
 	alm <= {{2{ted_digi[15]}}, ted_digi}
 	     + (sid_enabled ? {{2{sid_audio_l[17]}}, sid_audio_l[17:2]} : 18'd0)
 	     + {3'b000, digi_l, 7'd0}
