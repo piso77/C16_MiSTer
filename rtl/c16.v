@@ -111,7 +111,7 @@ mos8501 cpu
 (
 	.clk(CLK28), 
 	.reset(sreset), 
-	.enable(cpuenable && !WAIT),  
+	.enable(cpuenable && !WAIT_I),
 	.irq_n(irq_n), 
 	.data_in(c16_data), 
 	.data_out(cpu_data), 
