@@ -59,7 +59,8 @@ module c1541_multi #(parameter PARPORT=1,DUALROM=1,DRIVES=2)
 	input  [14:0] rom_addr_i,
 	input   [7:0] rom_data_i,
 	output  [7:0] rom_data_o,
-	input         rom_wr_i,
+	input         rom_wr_i,      // write to the loadable ROM (active when rom_std_i = 0)
+	input         rom_std_wr_i,  // write to the standard ROM (active when rom_std_i = 1)
 
 	// clk clock domain
 	input         rom_std_i
@@ -177,16 +178,17 @@ endgenerate
 
 wire [7:0] romstd_do;
 wire [7:0] qnice_rom1_do;
+
+// MEGA65 port: the standard ROM is not bundled with the core, it is loaded from the SD card at run-time
 iecdrv_mem_rom #(
    .DATAWIDTH(8),
    .ADDRWIDTH(14),
-   .INITFILE("../../C16_MiSTer/rtl/iec_drive/c1541_rom.mif.hex"),
    .FALLING_A(1'b1)
 ) romstd (
 	.clock_a(clk_sys),
 	.address_a(rom_addr_i[13:0]),
 	.data_a(rom_data_i),
-	.wren_a((DUALROM || PARPORT) ? 1'b0 : rom_wr_i),
+	.wren_a((DUALROM || PARPORT) ? rom_std_wr_i : rom_wr_i),
 	.q_a(qnice_rom1_do),
 
 	.clock_b(clk),
