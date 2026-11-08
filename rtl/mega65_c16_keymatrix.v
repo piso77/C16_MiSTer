@@ -22,39 +22,43 @@ module mega65_c16_keymatrix
 reg [7:0] colsel=0;
 reg key_A=0,key_B=0,key_C=0,key_D=0,key_E=0,key_F=0,key_G=0,key_H=0,key_I=0,key_J=0,key_K=0,key_L=0,key_M=0,key_N=0,key_O=0,key_P=0,key_Q=0,key_R=0,key_S=0,key_T=0,key_U=0,key_V=0,key_W=0,key_X=0,key_Y=0,key_Z=0;
 reg
-key_1=0,key_2=0,key_3=0,key_4=0,key_5=0,key_6=0,key_7=0,key_8=0,key_9=0,key_0=0,key_del=0,key_return=0,key_help=0,key_F1=0,key_F3=0,key_F5=0,key_F7=0,key_AT=0,key_lshift=0,key_rshift=0,key_comma=0,key_dot=0;
+key_1=0,key_2=0,key_3=0,key_4=0,key_5=0,key_6=0,key_7=0,key_8=0,key_9=0,key_0=0,key_del=0,key_return=0,key_F1=0,key_F3=0,key_F5=0,key_F7=0,key_AT=0,key_lshift=0,key_rshift=0,key_comma=0,key_dot=0;
 reg key_minus=0,key_colon=0,key_star=0,key_semicolon=0,key_esc=0,key_equal=0,key_plus=0,key_slash=0,key_control=0,key_space=0,key_runstop=0;
 reg key_pound=0,key_down=0,key_up=0,key_left=0,key_right=0,key_home=0,key_commodore=0;
 wire [7:0] rowsel;
 
 assign rowsel=~row;
 
-// Function keys: every MEGA65 F-key types the C16 key with the same number.
-// The C16 has F1, F2, F3 and HELP, and Shift turns them into F4, F5, F6 and
-// F7. On the MEGA65, F2, F4, F6 and F8 are Shift + F1, F3, F5 and F7, so the
-// Shift is added or hidden where the two differ (the C16 has no F8):
+// Function keys: MEGA65 F1 to F8 are the C16's F1 to F7 and HELP, which BASIC
+// calls KEY 1 to KEY 8. The C16 has F1, F2, F3 and HELP, and Shift turns them
+// into F4, F5, F6 and F7. On the MEGA65, F2, F4, F6 and F8 are Shift + F1, F3,
+// F5 and F7, so the Shift is added or hidden where the two differ:
 //
 //   MEGA65  C16 matrix            MEGA65  C16 matrix
 //   F1      F1                    F2      F2, Shift hidden
 //   F3      F3                    F4      Shift + F1
 //   F5      Shift + F2            F6      Shift + F3
-//   F7      Shift + HELP          F8      -
-//   Help    HELP (Shift + Help is Shift + HELP: F7, as on the C16)
+//   F7      Shift + HELP          F8      HELP, Shift hidden
 //
 // The KERNAL reads row 0 (the F-keys) before row 1 (Shift), so a key press
 // that the scan catches half applied gives no key and a release gives the
 // key that is already held: never a wrong one.
+//
+// The MEGA65's Help key (key 67) is not mapped: it opens the on-screen menu,
+// and the core sees it until the Shell has taken over the keyboard, so as the
+// C16's HELP key it typed HELP into BASIC now and then.
 wire shift     = key_lshift | key_rshift;
 wire m65_F2    = shift & key_F1;
 wire m65_F4    = shift & key_F3;
 wire m65_F5    = ~shift & key_F5;
 wire m65_F6    = shift & key_F5;
 wire m65_F7    = ~shift & key_F7;
+wire m65_F8    = shift & key_F7;
 wire c16_F1    = (~shift & key_F1) | m65_F4;
 wire c16_F2    = m65_F2 | m65_F5;
 wire c16_F3    = (~shift & key_F3) | m65_F6;
-wire c16_help  = key_help | m65_F7;
-wire c16_shift = (shift & ~m65_F2) | m65_F5 | m65_F7;
+wire c16_help  = m65_F7 | m65_F8;
+wire c16_shift = (shift & ~m65_F2 & ~m65_F8) | m65_F5 | m65_F7;
 
 always @(posedge clk) begin
 
@@ -98,7 +102,6 @@ always @(posedge clk) begin
 			7'h23: key_0<=pressed;
 			7'h00: key_del<=pressed;
 			7'h01: key_return<=pressed;
-			7'h43: key_help<=pressed;
 			7'h04: key_F1<=pressed;
 			7'h05: key_F3<=pressed;
 			7'h06: key_F5<=pressed;
